@@ -1,0 +1,8 @@
+{
+  "name": "iCollect",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "c1928047"
+}
