@@ -1154,7 +1154,7 @@ export class DownloadListPage implements OnInit {
               let globalgap = value.globalgap;
               let rspo = value.rspo;
 
-              let numb_feet = null;
+              let numb_feet = value.numb_feet;
               let mobile_data = 0;
 
               let synthetic_fertilizer = value.synthetic_fertilizer;
