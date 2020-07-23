@@ -45,7 +45,16 @@ export class ContactListPage implements OnInit {
 
         this.db.loadContacts(usr.id_contact, usr.agent_type, val).then(_ => { 
           this.db.getContacts().subscribe(data => { 
-            this.contact_data = data;
+            this.contact_data = data.sort((a, b) => {
+              if(a.name.last < b.name.last) {
+                return -1;
+              }
+              if(a.name.last > b.name.last) {
+                return 1;
+              }
+              return 0;
+            });
+
             this.loadData();
             this.loading.hideLoader();
           });
@@ -55,12 +64,11 @@ export class ContactListPage implements OnInit {
   }
 
   loadData() {
-    this.contacts = [];
-
     this.contact_data.forEach(contact => {
       let filepath = this.file.externalRootDirectory + 'icollect/avatar/';
       let filename = contact.avatar;
 
+      this.contacts = [];
       this.file.checkFile(filepath, filename)
         .then(() => {
           this.contacts.push({
@@ -96,6 +104,21 @@ export class ContactListPage implements OnInit {
     });
 
     this.setFilteredItems();
+  }
+
+  separateLetter(record, recordIndex, records) { alert(recordIndex);
+    /*if(recordIndex == 0) {
+      return record.name.last[0].toUpperCase();
+    }
+
+    let first_prev = records[recordIndex - 1].name.last[0];
+    let first_current = record.name.last[0];
+
+    if(first_prev != first_current) {
+      return first_current.toUpperCase();
+    }
+
+    return null;*/
   }
 
   setFilteredItems() {

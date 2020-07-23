@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -36,6 +36,20 @@ import { EditMediaPageModule } from './pages/edit-media/edit-media.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+import * as Sentry from 'sentry-cordova';
+Sentry.init({ dsn: 'https://6237198317ae4272a13ba15e9c6b5a75@o375394.ingest.sentry.io/5194930' });
+
+export class SentryIonicErrorHandler extends ErrorHandler {
+  handleError(error) {
+    super.handleError(error);
+    try {
+      Sentry.captureException(error.originalError || error);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 @NgModule({
@@ -79,7 +93,8 @@ export function createTranslateLoader(http: HttpClient) {
     Insomnia,
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    //{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    {provide: ErrorHandler, useClass: SentryIonicErrorHandler}
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { DatabaseService } from '../../services/database.service';
 import { TranslateService } from '@ngx-translate/core';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-menu',
@@ -28,14 +29,15 @@ export class MenuPage implements OnInit {
     private file: File,
     private webview: WebView,
     private db: DatabaseService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private backgroundMode: BackgroundMode
   ) {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event.url) {
         this.selectedPath = event.url;
       }
     });
-   }
+  }
 
   ngOnInit() {
     this.db.lastLogedUser().then(usr => {
@@ -93,7 +95,9 @@ export class MenuPage implements OnInit {
 
   logout() {
     this.db.logOut(this.user.id_contact).then(_ => {
+      this.backgroundMode.enable();
       this.db.backup(this.user.id_contact);
+      this.db.syncData();
       
       let data = {
         lang: this.user.lang,
