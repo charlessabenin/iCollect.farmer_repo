@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
+  "config": {
+    "ionic_generate_source_map": "true"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -67,6 +70,7 @@
     "ionic-cache": "^4.1.0",
     "ionic-image-loader": "^7.0.0-beta.2",
     "rxjs": "^6.6.0",
+    "sentry-cordova": "^0.17.0",
     "ts-md5": "^1.2.7",
     "tslib": "^1.13.0",
     "uk.co.workingedge.cordova.plugin.sqliteporter": "^1.1.1",
@@ -133,7 +137,8 @@
         "MAX_STORE": "2",
         "MIN_BACKGROUND_DURATION": "30",
         "UPDATE_API": "https://api.ionicjs.com"
-      }
+      },
+      "sentry-cordova": {}
     }
   }
 }
