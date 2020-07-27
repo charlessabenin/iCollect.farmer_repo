@@ -34,7 +34,7 @@ export class ProjectListPage implements OnInit {
     this.platform.ready().then(() => {
 
       this.db.lastLogedUser().then(usr => { 
-        if((usr.agent_type == 2) || (usr.agent_type == 4)){
+        if(usr.agent_type == 4){
           this.project_data = false;
           
           if(usr.id_supchain_company == 331) {
@@ -59,7 +59,6 @@ export class ProjectListPage implements OnInit {
           this.loading.hideLoader();
 
         } else {
-
           this.project_data = false;
           this.db.loadProjects(usr.id_contact).then(_ => {  
             this.db.getProjects().subscribe(data => {  

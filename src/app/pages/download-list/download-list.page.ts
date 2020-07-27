@@ -4,7 +4,10 @@ import { NavController, AlertController } from '@ionic/angular';
 import { NetworkService, ConnectionStatus } from 'src/app/services/network.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { File } from '@ionic-native/file/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-download-list',
@@ -170,13 +173,17 @@ export class DownloadListPage implements OnInit {
   type: any;
   login = false;
 
+  private _jsonURL = 'assets/SampleJson.json';
+  
   constructor(
     public http: HTTP,
+    private file: File,
     public navCtrl: NavController,
     public translate: TranslateService,
     private alertCtrl: AlertController,
     private activatedRoute: ActivatedRoute,
     private networkService: NetworkService,
+    private httpClient: HttpClient,
     private db: DatabaseService
   ) { }
 
@@ -465,7 +472,7 @@ export class DownloadListPage implements OnInit {
     });
   }
 
-  async download() {
+  hideall() {
     this.ctd_row_less = false; this.ctd_row_ok = false;
     this.cth_row_less = false; this.cth_row_ok = false;
     this.ct_row_less = false; this.ct_row_ok = false;
@@ -483,6 +490,29 @@ export class DownloadListPage implements OnInit {
     this.srt_row_less = false; this.srt_row_ok = false;
     this.srua_row_less = false; this.srua_row_ok = false;
     this.twn_row_less = false; this.twn_row_ok = false;
+
+    this.ctd_total = null; 
+    this.cth_total = null; 
+    this.ct_total = null; 
+    this.locp_total = null; 
+    this.loc_total = null;
+    this.path_total = null; 
+    this.plt_total = null;
+    this.pltd_total = null; 
+    this.pjt_total = null;
+    this.ptsk_total = null; 
+    this.ttsk_total = null;
+    this.reg_total = null; 
+    this.sra_total = null; 
+    this.srq_total = null; 
+    this.srt_total = null; 
+    this.srua_total = null; 
+    this.twn_total = null;
+  }
+
+  async download() {
+    
+    this.hideall();
 
     var yes, no, upLocalDB, upLocalDBText;
     this.translate.get('YES').subscribe(value => { yes = value; });
@@ -707,7 +737,7 @@ export class DownloadListPage implements OnInit {
 
       if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
         if (id_supchain_company == 331) {
-          v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members?id_cooperative=eq.' + id_primary_company;
+          v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members_contacts?id_cooperative=eq.' + id_primary_company;
         } else {
           v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members?id_contractor=eq.' + id_primary_company;
         }
@@ -995,6 +1025,9 @@ export class DownloadListPage implements OnInit {
 
       if (agent_type == 3) {
         plantation_lines_start = 'https://idiscover.ch/postgrest/icollect/dev/v_plantation_lines?id_contact=eq.' + agent_id;
+      } else 
+      if (agent_type == 2) {
+        plantation_lines_start = 'https://idiscover.ch/postgrest/icollect/dev/v_plantation_lines?id_company=eq.' + id_primary_company;
       } else {
         plantation_lines_start = 'https://idiscover.ch/postgrest/icollect/dev/v_plantation_lines?id_company=eq.' + id_primary_company;
       }
@@ -1075,7 +1108,7 @@ export class DownloadListPage implements OnInit {
       } else
         if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
           if (id_supchain_company == 331) {
-            v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_cooperative=eq.' + id_primary_company;
+            v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_project_mob_tplantation?project_coop=eq.' + id_primary_company;
           } else {
             v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_contractor=eq.' + id_primary_company;
           }
@@ -1218,7 +1251,7 @@ export class DownloadListPage implements OnInit {
                 }
 
                 i = i + 1;
-              });
+              }).catch(err => alert(JSON.stringify(err)));
             });
           }
 
@@ -1271,7 +1304,11 @@ export class DownloadListPage implements OnInit {
             if ((agent_type == 1) || (agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
               this.restFetchProjects(agent_id, agent_type, id_supchain_company, id_primary_company);
             } else {
-              this.restFetchRegvalues();
+              if (this.type == 'login') {
+                this.restFetchRegvalues(0);
+              } else {
+                this.restFetchServeyAswers();
+              }
             }
 
           } else {
@@ -1303,7 +1340,11 @@ export class DownloadListPage implements OnInit {
                   if ((agent_type == 1) || (agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
                     this.restFetchProjects(agent_id, agent_type, id_supchain_company, id_primary_company);
                   } else {
-                    this.restFetchRegvalues();
+                    if (this.type == 'login') {
+                      this.restFetchRegvalues(0);
+                    } else {
+                      this.restFetchServeyAswers();
+                    }
                   }
                 }
 
@@ -1331,7 +1372,10 @@ export class DownloadListPage implements OnInit {
       this.pjt_total_row = total_rows;
       this.pjt_total = total_rows;
 
-      if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
+      if(agent_type == 2) {
+        v_mob_agent_projects = 'https://idiscover.ch/postgrest/icollect/dev/v_project?cooperative_id=eq.' + id_primary_company;
+      } else
+      if ((agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
         if (id_supchain_company == 331) {
           v_mob_agent_projects = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_agent_projects?id_cooperative=eq.' + id_primary_company;
         } else {
@@ -1357,6 +1401,8 @@ export class DownloadListPage implements OnInit {
 
           } else {
             let i = 1;
+            let agent_id;
+
             raw.forEach(value => {
               let id_project = value.id_project;
               let project_name = value.project_name;
@@ -1372,7 +1418,11 @@ export class DownloadListPage implements OnInit {
               let country_id = value.country_id;
               let name_country = value.name_country;
               let region_id = value.region_id;
-              let agent_id = value.agent_id;
+
+              if(agent_type == 2) {
+                agent_id = this.user.id_contact;
+              } else { agent_id = value.agent_id; }
+              
               let id_cooperative = value.id_cooperative;
 
               this.db.addProject(id_project, project_name, project_type, project_type_name, start_date, due_date, project_status, id_company, company_name, id_culture, name_culture, country_id, name_country, region_id, agent_id, this.user.agent_type, id_cooperative).then(() => {
@@ -1523,7 +1573,11 @@ export class DownloadListPage implements OnInit {
 
             this.loadTownTask();
             this.ttsk_spinner = false;
-            this.restFetchRegvalues();
+            if (this.type == 'login') {
+              this.restFetchRegvalues(0);
+            } else {
+              this.restFetchServeyAswers();
+            }
 
           } else {
             let i = 1;
@@ -1551,7 +1605,11 @@ export class DownloadListPage implements OnInit {
 
                   this.loadTownTask();
                   this.ttsk_spinner = false;
-                  this.restFetchRegvalues();
+                  if (this.type == 'login') {
+                    this.restFetchRegvalues(0);
+                  } else {
+                    this.restFetchServeyAswers();
+                  }
                 }
 
                 i = i + 1;
@@ -1569,8 +1627,13 @@ export class DownloadListPage implements OnInit {
     });
   }
 
-  async restFetchRegvalues(): Promise<any> {
+  async restFetchRegvalues(conf): Promise<any> {
     let v_regvalues = 'https://idiscover.ch/postgrest/icollect/dev/v_regvalues';
+
+    if(conf==1){
+      this.hideall();
+      this.login = false;
+    }
 
     this.reg_spinner = true;
     this.reg_progress = 0;
@@ -1590,8 +1653,10 @@ export class DownloadListPage implements OnInit {
 
             this.loadRegister();
             this.reg_spinner = false;
-            this.restFetchServeyAswers();
-
+            if(conf==0){
+              this.restFetchServeyAswers();
+            }
+            
           } else {
             let i = 1;
             r.forEach(value => {
@@ -1618,7 +1683,11 @@ export class DownloadListPage implements OnInit {
 
                   this.loadRegister();
                   this.reg_spinner = false;
-                  this.restFetchServeyAswers();
+                  if(conf==0){
+                    this.restFetchServeyAswers();
+                  } else {
+                    this.login = true;
+                  }
                 }
 
                 i = i + 1;
@@ -1631,7 +1700,6 @@ export class DownloadListPage implements OnInit {
           console.log(error.error); // error message as string
           console.log(error.headers);
         });
-
       });
     });
   }
@@ -1800,7 +1868,7 @@ export class DownloadListPage implements OnInit {
 
                   this.loadSurvey_template();
                   this.srt_spinner = false;
-                  this.restFetchServeyUsersAnswers(2, this.user.agent_id, this.user.agent_type);
+                  this.restFetchServeyUsersAnswers(2, this.user.id_contact, this.user.agent_type);
                 }
 
                 i = i + 1;
@@ -1817,14 +1885,14 @@ export class DownloadListPage implements OnInit {
     });
   }
 
-  async restFetchServeyUsersAnswers(value, agent_id, agent_type): Promise<any> {
+  async restFetchServeyUsersAnswers(value, agent_id, agent_type): Promise<any> { 
     var sur_servey_answers;
 
     this.srua_spinner = true;
     this.srua_progress = 0;
     this.db.restFetchServeyUsersAnswersLenth(value, agent_id, agent_type).then(total_rows => {
-      this.srua_total_row = total_rows;
-      this.srua_total = total_rows;
+      this.srua_total_row = total_rows;  
+      this.srua_total = total_rows;  
 
       if (agent_type == 3) {
         sur_servey_answers = 'https://idiscover.ch/postgrest/icollect/dev/sur_survey_answers?surtemplate_id=eq.' + value + '&id_contact=eq.' + agent_id;
@@ -1835,10 +1903,10 @@ export class DownloadListPage implements OnInit {
           sur_servey_answers = 'https://idiscover.ch/postgrest/icollect/dev/sur_survey_answers?surtemplate_id=eq.' + value + '&id_agent=eq.' + agent_id;
         }
 
-      this.db.deleteContactSurveyAnswers().then(() => {
+      this.db.deleteContactSurveyAnswers().then(() => { 
         this.http.get(sur_servey_answers, {}, {}).then(data => {
           let r = JSON.parse(data.data);
-          let lenth: number = r.length;
+          let lenth: number = r.length;  
 
           if (lenth == 0) {
             var m = new Date();
@@ -1847,7 +1915,11 @@ export class DownloadListPage implements OnInit {
 
             this.loadSurvey_UserAnswers();
             this.srua_spinner = false;
-            this.restFetchTowns();
+            if (this.type == 'login') {
+              this.restFetchTowns(0);
+            } else {
+              this.login = true;
+            }
 
           } else {
             let i = 1;
@@ -1877,7 +1949,11 @@ export class DownloadListPage implements OnInit {
 
                   this.loadSurvey_UserAnswers();
                   this.srua_spinner = false;
-                  this.restFetchTowns();
+                  if (this.type == 'login') {
+                    this.restFetchTowns(0);
+                  } else {
+                    this.login = true;
+                  }
                 }
 
                 i = i + 1;
@@ -1894,8 +1970,13 @@ export class DownloadListPage implements OnInit {
     });
   }
 
-  async restFetchTowns(): Promise<any> {
+  async restFetchTowns(conf): Promise<any> {
     let towns_start = 'https://idiscover.ch/postgrest/icollect/dev/towns?id_country=eq.1';
+
+    if(conf==1){
+      this.hideall();
+      this.login = false;
+    }
 
     this.twn_spinner = true;
     this.twn_progress = 0;

@@ -169,7 +169,7 @@ export class NewContactPage implements OnInit {
       this.saveTicker('id_type', 9, 'contact');
       this.saveTicker('id_cooperative', this.id_cooperative, 'contact'); 
       //this.saveTicker('id_contractor', this.id_company, 'contact'); 
-      this.saveTicker('id_company', this.id_company, 'contact'); 
+      //this.saveTicker('id_company', this.id_company, 'contact'); 
       this.saveTicker('created_date', this.created_date, 'contact');
       this.saveTicker('created_by', this.agent_id, 'contact');
 

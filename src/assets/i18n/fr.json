@@ -278,7 +278,7 @@
   "START_WAYPOINT_PP_TITLE":"Caution!",
   "START_WAYPOINT_PP_MSG":"Les anciens points seront supprimés! Continuer ?",
   "OLD_POINTS_DELETE_SUCCESS":"Les anciens points sont supprimés!",
-  "NEW_POINT_ADDED":"Les anciens points sont supprimés!",
+  "NEW_POINT_ADDED":"Nouveau point ajouté",
   "WAY_POINT_STOP":"Arrèter point de cheminement",
   "WAY_POINT_START":"Point de cheminement démarré",
   "SAVE":"Enregistrer",

@@ -120,6 +120,7 @@ export class DatabaseService {
             this.createPlantationsDir();
             this.createAvatarDir();
             this.createLocationsDir();
+            this.createDataDir();
 
             this.loading.hideLoader();
 
@@ -256,6 +257,17 @@ export class DatabaseService {
     }).catch(err => {
       console.log(err);
       this.file.createDir(this.file.externalRootDirectory, 'icollect/plantations', false).then(response => {
+        console.log('Directory create' + response);
+      }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
+    });
+  }
+
+  createDataDir() {
+    this.file.checkDir(this.file.externalRootDirectory, 'icollect/data').then(response => {
+      console.log(response);
+    }).catch(err => {
+      console.log(err);
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/data', false).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -1382,9 +1394,9 @@ export class DatabaseService {
     let data = [agent_id, plantation_id, plantationsite_id, contact_id, field_name, field_value, field_table, ticker_time, coordx, coordy, local_synctable_id, project_id, task_id, 0, id_household, id_contact_docs, id_plantation_docs, id_equipement, id_sur_survey_answers, id_contractor, id_infrastructure, id_suranswer, plant_line_id, id_infrastructure_photo];
     return this.database.executeSql('INSERT INTO mobcrmticker (agent_id, plantation_id, plantationsite_id, contact_id, field_name, field_value, field_table, ticker_time, coordx, coordy, local_synctable_id, project_id, task_id, sync, id_household, id_contact_docs, id_plantation_docs, id_equipement, id_sur_survey_answers, id_contractor, id_infrastructure, id_suranswer, plant_line_id, id_infrastructure_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data)
       .then(() => {
-        setTimeout(function () {
+        /*setTimeout(() => {
           this.syncData();
-        }, 3000);
+        }, 3000);*/
       });
   }
 
@@ -1827,7 +1839,7 @@ export class DatabaseService {
 
   addPlantation(id_plantation, plantationsite_id, id_contact, id_town, name_town, property, coordx, coordy, geom_json, year_creation, title_deed, notes, area_acres, surface_ha, area, code_plantation, checked_out, checked_out_by, checked_out_date, id_culture, id_culture1, id_culture2, id_culture3, id_culture4, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, name_manager, manager_phone, seed_type, dc_completed, inactive, inactive_date, id_contractor, agent_id, numb_feet, mobile_data, globalgap, rspo, synthetic_fertilizer, synthetic_fertilizer_photo, synthetic_herbicides, synthetic_herbicides_photo, synthetic_pesticide, synthetic_pesticide_photo, adjoining_cultures, intercropping, harvest, forest, sewage, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, storage_coordx, storage_coordy, storage_photo, area_estimate_ha, fire, owner_manager, id_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, year_extension, replanting, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work) {
     let data = [id_plantation, plantationsite_id, id_contact, id_town, name_town, property, coordx, coordy, geom_json, year_creation, title_deed, notes, area_acres, surface_ha, area, code_plantation, checked_out, checked_out_by, checked_out_date, id_culture, id_culture1, id_culture2, id_culture3, id_culture4, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, name_manager, manager_phone, seed_type, dc_completed, inactive, inactive_date, id_contractor, agent_id, numb_feet, mobile_data, globalgap, rspo, synthetic_fertilizer, synthetic_fertilizer_photo, synthetic_herbicides, synthetic_herbicides_photo, synthetic_pesticide, synthetic_pesticide_photo, adjoining_cultures, intercropping, harvest, forest, sewage, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, storage_coordx, storage_coordy, storage_photo, area_estimate_ha, fire, owner_manager, id_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, year_extension, replanting, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work];
-    return this.database.executeSql('INSERT INTO plantation (id_plantation, plantationsite_id, id_contact, id_town, name_town, property, coordx, coordy, geom_json, year_creation, title_deed, notes, area_acres, surface_ha, area, code_plantation, checked_out, checked_out_by, checked_out_date, id_culture, id_culture1, id_culture2, id_culture3, id_culture4, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, name_manager, manager_phone, seed_type, dc_completed, inactive, inactive_date, id_contractor, agent_id, numb_feet, mobile_data, globalgap, rspo, synthetic_fertilizer, synthetic_fertilizer_photo, synthetic_herbicides, synthetic_herbicides_photo, synthetic_pesticide, synthetic_pesticide_photo, adjoining_cultures, intercropping, harvest, forest, sewage, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, storage_coordx, storage_coordy, storage_photo, area_estimate_ha, fire, owner_manager, id_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, replanting, year_extension, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data);
+    return this.database.executeSql('INSERT INTO plantation (id_plantation, plantationsite_id, id_contact, id_town, name_town, property, coordx, coordy, geom_json, year_creation, title_deed, notes, area_acres, surface_ha, area, code_plantation, checked_out, checked_out_by, checked_out_date, id_culture, id_culture1, id_culture2, id_culture3, id_culture4, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, name_manager, manager_phone, seed_type, dc_completed, inactive, inactive_date, id_contractor, agent_id, numb_feet, mobile_data, globalgap, rspo, synthetic_fertilizer, synthetic_fertilizer_photo, synthetic_herbicides, synthetic_herbicides_photo, synthetic_pesticide, synthetic_pesticide_photo, adjoining_cultures, intercropping, harvest, forest, sewage, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, storage_coordx, storage_coordy, storage_photo, area_estimate_ha, fire, owner_manager, id_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, year_extension, replanting, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data);
   }
 
   getPlantation(id_plantation): Promise<any> {
@@ -2215,7 +2227,6 @@ export class DatabaseService {
       let contactsList: any[] = [];
 
       if (data.rows.length > 0) {
-
         for (var i = 0; i < data.rows.length; i++) {
           let data_collection;
           if (data.rows.item(i).dc_completed == 1) {
@@ -2233,8 +2244,6 @@ export class DatabaseService {
           });
         }
       }
-
-      contactsList = contactsList.sort();
 
       this.contacts.next(contactsList);
     });
@@ -3948,7 +3957,7 @@ export class DatabaseService {
 
     if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
       if (id_supchain_company == 331) {
-        v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members?id_cooperative=eq.' + id_primary_company;
+        v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members_contacts?id_cooperative=eq.' + id_primary_company;
       } else {
         v_contact_start = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_project_members?id_contractor=eq.' + id_primary_company;
       }
@@ -4033,7 +4042,7 @@ export class DatabaseService {
     } else
       if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
         if (id_supchain_company == 331) {
-          v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_cooperative=eq.' + id_primary_company;
+          v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_project_mob_tplantation?project_coop=eq.' + id_primary_company;
         } else {
           v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_contractor=eq.' + id_primary_company;
         }
@@ -4079,7 +4088,10 @@ export class DatabaseService {
   restFetchProjectsLenth(agent_id, agent_type, id_supchain_company, id_primary_company) {
     let v_mob_agent_projects;
 
-    if ((agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
+    if(agent_type == 2) {
+      v_mob_agent_projects = 'https://idiscover.ch/postgrest/icollect/dev/v_project?cooperative_id=eq.' + id_primary_company;
+    } else
+    if ((agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
       if (id_supchain_company == 331) {
         v_mob_agent_projects = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_agent_projects?id_cooperative=eq.' + id_primary_company;
       } else {
@@ -4138,6 +4150,12 @@ export class DatabaseService {
     return this.http.get(v_regvalues, {}, {}).then(data => {
       let r = JSON.parse(data.data);
       let lenth: number = r.length;
+
+      let filepath = this.file.externalRootDirectory + 'icollect/data/';
+      this.file.createFile(filepath, 'regvalues.json', false).catch(() => { 
+        this.file.writeFile(filepath, 'regvalues.json', JSON.stringify(data), {replace: true});
+      });
+
       return lenth;
     });
   }
@@ -4197,6 +4215,12 @@ export class DatabaseService {
     return this.http.get(towns_start, {}, {}).then(data => {
       let r = JSON.parse(data.data);
       let lenth: number = r.length;
+
+      let filepath = this.file.externalRootDirectory + 'icollect/data/';
+      this.file.createFile(filepath, 'towns.json', false).catch(() => { 
+        this.file.writeFile(filepath, 'towns.json', JSON.stringify(data), {replace: true});
+      });
+
       return lenth;
     });
   }

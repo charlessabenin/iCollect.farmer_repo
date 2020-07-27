@@ -10,6 +10,20 @@
 </ion-header>
 
 <ion-content>
+  <ion-row>
+    <ion-col col-6>
+      <ion-button expand="block" color="danger" (click)="restFetchRegvalues(1)">
+        Update Values
+      </ion-button>
+    </ion-col>
+
+    <ion-col col-6>
+      <ion-button expand="block" color="danger" (click)="restFetchTowns(1)">
+        Update Towns
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
   <ion-list>
     <ion-item *ngIf="ctd_total">
       <ion-label>
@@ -181,7 +195,7 @@
         <h3>User Survey Answers</h3>
         <p>{{ srua_total_rows }}/<strong>{{ srua_total }}</strong></p>
         <small style="color:#9fa0a2;">{{ srua_data_date }}</small>
-        <ion-progress-bar *ngIf="srua_spinner" value={{srua_progress}}></ion-progress-bar>
+        <ion-progress-bar *ngIf="srua_spinner" color="danger" value={{srua_progress}}></ion-progress-bar>
       </ion-label>
       <ion-icon *ngIf="srua_row_less" color="danger" color="danger" slot="end" name="alert-circle-outline"></ion-icon>
       <ion-icon *ngIf="srua_row_ok" color="success" slot="end" name="checkmark-circle-outline"></ion-icon>

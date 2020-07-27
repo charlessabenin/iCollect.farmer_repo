@@ -47,7 +47,8 @@ export class ContactsPage implements OnInit {
       this.translate.get('LOADING_CONTACT').subscribe(value => {
         this.loading.showLoader(value);
       });
-
+      
+      this.contacts = [];
       if(usr.agent_type == 3) { 
         this.new_data = false;
         this.db.loadFarmer(usr.id_contact).then(_ => {
@@ -73,6 +74,7 @@ export class ContactsPage implements OnInit {
   }
 
   contactsByTask() {
+    this.contacts = [];
     this.db.loadAllContact(this.selcted_task).then(_ => {
       this.db.getContacts().subscribe(data => {
         this.contact_data = data;

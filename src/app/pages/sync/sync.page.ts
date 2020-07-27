@@ -678,7 +678,8 @@ export class SyncPage implements OnInit {
               x = x + 1;
             });
 
-          }).catch((error) => {
+          }).catch((error) => { 
+            this.loading.hideLoader();
             console.error('API Error : ', error.status);
             console.error('API Error : ', JSON.stringify(error));
           });
