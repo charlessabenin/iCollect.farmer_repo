@@ -1304,11 +1304,13 @@ export class DownloadListPage implements OnInit {
             if ((agent_type == 1) || (agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
               this.restFetchProjects(agent_id, agent_type, id_supchain_company, id_primary_company);
             } else {
-              if (this.type == 'login') {
-                this.restFetchRegvalues(0);
-              } else {
-                this.restFetchServeyAswers();
-              }
+              //if (this.type == 'login') {
+              //  this.restFetchRegvalues(0);
+              //} else {
+              //  this.restFetchServeyAswers();
+              //}
+
+              this.restFetchServeyAswers();
             }
 
           } else {
@@ -1340,11 +1342,13 @@ export class DownloadListPage implements OnInit {
                   if ((agent_type == 1) || (agent_type == 2) || (agent_type == 4) || (agent_type == 5) || (agent_type == 6)) {
                     this.restFetchProjects(agent_id, agent_type, id_supchain_company, id_primary_company);
                   } else {
-                    if (this.type == 'login') {
-                      this.restFetchRegvalues(0);
-                    } else {
-                      this.restFetchServeyAswers();
-                    }
+                    //if (this.type == 'login') {
+                    //  this.restFetchRegvalues(0);
+                    //} else {
+                    //  this.restFetchServeyAswers();
+                    //}
+
+                    this.restFetchServeyAswers();
                   }
                 }
 
@@ -1573,11 +1577,13 @@ export class DownloadListPage implements OnInit {
 
             this.loadTownTask();
             this.ttsk_spinner = false;
-            if (this.type == 'login') {
-              this.restFetchRegvalues(0);
-            } else {
-              this.restFetchServeyAswers();
-            }
+            //if (this.type == 'login') {
+            //  this.restFetchRegvalues(0);
+            //} else {
+            //  this.restFetchServeyAswers();
+            //}
+
+            this.restFetchServeyAswers();
 
           } else {
             let i = 1;
@@ -1605,11 +1611,13 @@ export class DownloadListPage implements OnInit {
 
                   this.loadTownTask();
                   this.ttsk_spinner = false;
-                  if (this.type == 'login') {
-                    this.restFetchRegvalues(0);
-                  } else {
-                    this.restFetchServeyAswers();
-                  }
+                  //if (this.type == 'login') {
+                  //  this.restFetchRegvalues(0);
+                  //} else {
+                  //  this.restFetchServeyAswers();
+                  //}
+
+                  this.restFetchServeyAswers();
                 }
 
                 i = i + 1;
@@ -1915,11 +1923,13 @@ export class DownloadListPage implements OnInit {
 
             this.loadSurvey_UserAnswers();
             this.srua_spinner = false;
-            if (this.type == 'login') {
-              this.restFetchTowns(0);
-            } else {
-              this.login = true;
-            }
+            //if (this.type == 'login') {
+            //  this.restFetchTowns(0);
+            //} else {
+            //  this.login = true;
+            //}
+
+            this.login = true;
 
           } else {
             let i = 1;
@@ -1949,11 +1959,13 @@ export class DownloadListPage implements OnInit {
 
                   this.loadSurvey_UserAnswers();
                   this.srua_spinner = false;
-                  if (this.type == 'login') {
-                    this.restFetchTowns(0);
-                  } else {
-                    this.login = true;
-                  }
+                  //if (this.type == 'login') {
+                  //  this.restFetchTowns(0);
+                  //} else {
+                  //  this.login = true;
+                  //}
+
+                  this.login = true;
                 }
 
                 i = i + 1;

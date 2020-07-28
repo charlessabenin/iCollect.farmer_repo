@@ -114,6 +114,9 @@ export class DatabaseService {
         this.sqlitePorter.importSqlToDb(this.database, sql)
           .then(_ => {
             this.dbReady.next(true);
+            this.loadRegvaluesDB();
+            this.loadTownsDB();
+
             this.createIcollectDir();
             this.createHouseholdDir();
             this.createDocumentsDir();
@@ -127,6 +130,30 @@ export class DatabaseService {
             /*if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Online) {
               this.syncData();
             }*/
+          })
+          .catch(e => { console.error(e); });
+      });
+  }
+
+  loadRegvaluesDB() {
+    this.HttpClient.get('../../assets/regvalues.sql', { responseType: 'text' })
+      .subscribe(sql => {
+        this.sqlitePorter.importSqlToDb(this.database, sql)
+          .then(_ => {
+            this.dbReady.next(true);
+           
+          })
+          .catch(e => { console.error(e); });
+      });
+  }
+
+  loadTownsDB() {
+    this.HttpClient.get('../../assets/towns.sql', { responseType: 'text' })
+      .subscribe(sql => {
+        this.sqlitePorter.importSqlToDb(this.database, sql)
+          .then(_ => {
+            this.dbReady.next(true);
+           
           })
           .catch(e => { console.error(e); });
       });
