@@ -609,8 +609,61 @@ export class SyncPage implements OnInit {
     });
   }
 
-  syncData() {
-    if (this.network == true) {
+  syncData() { 
+    
+    let filepath = this.file.externalRootDirectory + 'icollect/data/';
+
+    var m = new Date();
+    let date = m.getUTCFullYear() + "-" + ("0" + (m.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + m.getUTCDate()).slice(-2) + "_" + ("0" + m.getUTCHours()).slice(-2) + "." + ("0" + m.getUTCMinutes()).slice(-2) + "." + ("0" + m.getUTCSeconds()).slice(-2);
+    
+    let filename = date+'_mobcrmticker.sql';  
+    
+    this.file.createFile(filepath, filename, true).then(() => { 
+
+      let query:string = "";
+      this.data.forEach(value => { 
+        query = query + "\nINSERT INTO mobcrmticker (id_contact, field_name, field_value, field_table, ticker_time, coordx, coordy, id_agent, id_plantation, id_plantationsite, local_synctable_id, id_project, id_task, sync, id_household, id_contact_docs, id_plantation_docs, id_equipment, id_sur_survey_answers, id_contractor, id_infrastructure, id_suranswer, plant_line_id, id_infrastructure_photo) VALUES ('" + value.contact_id + "', '" + value.field_name + "', '" + value.field_value + "', '" + value.field_table + "', '" + value.ticker_time + "', '" + value.coordx + "', '" + value.coordy + "', '" + value.agent_id + "', '" + value.plantation_id + "', '" + value.plantationsite_id + "', '" + value.local_synctable_id + "', '" + value.project_id + "', '" + value.task_id + "', '1', '" + value.id_household + "', '" + value.id_contact_docs + "', '" + value.id_plantation_docs + "', '" + value.id_equipement + "', '" + value.id_sur_survey_answers + "', '" + value.id_contractor + "', '" + value.id_infrastructure + "', '" + value.id_suranswer + "', '" + value.plant_line_id + "', '" + value.id_infrastructure_photo + "');";
+        this.file.writeExistingFile(filepath, filename, query);
+      });
+
+      if (this.network == true) {
+        this.translate.get('UPLOADING_DATA').subscribe(value => {
+          this.loading.showLoader(value);
+        });
+
+        let url = encodeURI("https://icoop.live/ic/mobile_upload.php?func=data");
+
+        let options: FileUploadOptions = {
+          fileKey: "file",
+          fileName: filename,
+          chunkedMode: false,
+          mimeType: "multipart/form-data",
+          params: { 'fileName': filename, 'func': 'data' }
+        }
+
+        const fileTransfer: FileTransferObject = this.transfer.create();
+
+        fileTransfer.upload(filepath+filename, url, options, true)
+          .then(() => {
+            this.loading.hideLoader();
+            this.db.backup(this.user.id_contact);
+            this.toastAlert('Data uploaded successfully.');
+
+          }).catch(err => {
+            this.loading.hideLoader();
+          });
+
+      } else {
+        this.translate.get('CHECK_INTERNET').subscribe(value => {
+          this.toastAlert(value);
+        });
+      }
+    });
+
+
+
+
+    /*if (this.network == true) {
       this.translate.get('UPLOADING_DATA').subscribe(value => {
         this.loading.showLoader(value);
       });
@@ -620,7 +673,7 @@ export class SyncPage implements OnInit {
 
       this.local_data_spinner = true;
       this.local_data_progress = 0;
-      this.local_data_progress_value = 0+'%';
+      this.local_data_progress_value = 0 + '%';
 
       this.data.forEach(value => {
         var link = 'https://idiscover.ch/api/restifydb/postgres_dev/mobcrmticker/';
@@ -667,8 +720,8 @@ export class SyncPage implements OnInit {
                 }
               );
 
-              this.local_data_progress = (x/length);
-              this.local_data_progress_value = Math.round((x/length) * 100)+'%';
+              this.local_data_progress = (x / length);
+              this.local_data_progress_value = Math.round((x / length) * 100) + '%';
 
               if (x == length) {
                 this.loading.hideLoader();
@@ -678,7 +731,7 @@ export class SyncPage implements OnInit {
               x = x + 1;
             });
 
-          }).catch((error) => { 
+          }).catch((error) => {
             this.loading.hideLoader();
             console.error('API Error : ', error.status);
             console.error('API Error : ', JSON.stringify(error));
@@ -689,7 +742,7 @@ export class SyncPage implements OnInit {
       this.translate.get('CHECK_INTERNET').subscribe(value => {
         this.toastAlert(value);
       });
-    }
+    } */
   }
 
   async clearPrompt(msg, headerText, datatype) {
