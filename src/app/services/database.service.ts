@@ -85,7 +85,7 @@ export class DatabaseService {
   ) {
     this.plt.ready().then(() => {
       this.sqlite.create({
-        name: 'icollect_1.4.3.db',
+        name: 'icollect_1.4.7.db',
         location: 'default'
       })
         .then((db: SQLiteObject) => {
@@ -239,7 +239,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/locations', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/locations', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -250,7 +250,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/avatar', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/avatar', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -261,7 +261,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/household', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/household', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -272,7 +272,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/documents', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/documents', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -283,7 +283,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/plantations', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/plantations', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -294,7 +294,7 @@ export class DatabaseService {
       console.log(response);
     }).catch(err => {
       console.log(err);
-      this.file.createDir(this.file.externalRootDirectory, 'icollect/data', false).then(response => {
+      this.file.createDir(this.file.externalRootDirectory, 'icollect/data', true).then(response => {
         console.log('Directory create' + response);
       }).catch(err => { console.log('Directory no create' + JSON.stringify(err)); });
     });
@@ -1445,6 +1445,12 @@ export class DatabaseService {
     });
   }
 
+  tickerAsSunc() {
+    return this.database.executeSql('UPDATE mobcrmticker SET sync = 1', []).then(()  => {
+      this.loadTickerData();
+    });
+  }
+
   // Data
 
   addData(data_type, data_date, data_download, data_upload, total_rows) {
@@ -1975,7 +1981,7 @@ export class DatabaseService {
 
   updatePlantationtData(code_plantation, year_creation, title_deed, property, notes, area_acres, area, id_culture, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, manager_firstname, manager_lastname, name_manager, manager_phone, seed_type, dc_completed, inactive, numb_feet, id_plantation, globalgap, rspo, synthetic_fertilizer, synthetic_herbicides, synthetic_pesticide, adjoining_cultures, intercropping, harvest, forest, fire, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, name_town, owner_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, year_extension, replanting, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work) {
     let data = [code_plantation, year_creation, title_deed, property, notes, area_acres, area, id_culture, bio, bio_suisse, perimeter, variety, eco_river, eco_shallows, eco_wells, manager_firstname, manager_lastname, name_manager, manager_phone, seed_type, dc_completed, inactive, numb_feet, globalgap, rspo, synthetic_fertilizer, synthetic_herbicides, synthetic_pesticide, adjoining_cultures, intercropping, harvest, forest, fire, waste, rating, manager_civil, number_staff_permanent, number_staff_temporary, yield_estimate, name_town, owner_manager, code_farmer, fair_trade, pest, irrigation, drainage, slope, slope_text, extension, year_extension, replanting, year_to_replant, lands_rights_conflict, lands_rights_conflict_note, road_access, farmer_experience, farmer_experience_level, day_worker_pay, gender_workers, migrant_workers, children_work, id_plantation];
-    return this.database.executeSql('UPDATE plantation SET code_plantation=?, year_creation=?, title_deed=?, property=?, notes=?, area_acres=?, area=?, id_culture=?, bio=?, bio_suisse=?, perimeter=?, variety=?, eco_river=?, eco_shallows=?, eco_wells=?, manager_firstname=?, manager_lastname=?, name_manager=?,  manager_phone=?, seed_type=?, dc_completed=?, inactive=?, numb_feet=?, globalgap=?, rspo=?, synthetic_fertilizer=?, synthetic_herbicides=?, synthetic_pesticide=?, adjoining_cultures=?, intercropping=?, harvest=?, forest=?, fire=?, waste=?, rating=?, manager_civil=?, number_staff_permanent=?, number_staff_temporary=?, yield_estimate=?, name_town=?, owner_manager=?, code_farmer=?, fair_trade=?, pest=?, irrigation=?, drainage=?, slope=?, slope_text=?, extension=?, year_extension=?, replanting=?, year_to_replant=?, lands_rights_conflict=?, lands_rights_conflict_note=?, road_access=?, farmer_experience=?, farmer_experience_level=?, day_worker_pay=?, gender_workers=?, migrant_workers=?, children_work=? WHERE id_plantation=?', data).then(() => {
+    return this.database.executeSql('UPDATE plantation SET code_plantation=?, year_creation=?, title_deed=?, property=?, notes=?, area_acres=?, area=?, id_culture1=?, bio=?, bio_suisse=?, perimeter=?, variety=?, eco_river=?, eco_shallows=?, eco_wells=?, manager_firstname=?, manager_lastname=?, name_manager=?,  manager_phone=?, seed_type=?, dc_completed=?, inactive=?, numb_feet=?, globalgap=?, rspo=?, synthetic_fertilizer=?, synthetic_herbicides=?, synthetic_pesticide=?, adjoining_cultures=?, intercropping=?, harvest=?, forest=?, fire=?, waste=?, rating=?, manager_civil=?, number_staff_permanent=?, number_staff_temporary=?, yield_estimate=?, name_town=?, owner_manager=?, code_farmer=?, fair_trade=?, pest=?, irrigation=?, drainage=?, slope=?, slope_text=?, extension=?, year_extension=?, replanting=?, year_to_replant=?, lands_rights_conflict=?, lands_rights_conflict_note=?, road_access=?, farmer_experience=?, farmer_experience_level=?, day_worker_pay=?, gender_workers=?, migrant_workers=?, children_work=? WHERE id_plantation=?', data).then(() => {
       this.getPlantation(id_plantation);
     });
   }
@@ -4071,7 +4077,7 @@ export class DatabaseService {
         if (id_supchain_company == 331) {
           v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_project_mob_tplantation?project_coop=eq.' + id_primary_company;
         } else {
-          v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_contractor=eq.' + id_primary_company;
+          v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_plantation_project_company?id_company=eq.' + id_primary_company;
         }
 
       } else

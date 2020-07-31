@@ -609,59 +609,65 @@ export class SyncPage implements OnInit {
     });
   }
 
-  syncData() { 
-    
+  syncData() {
+
     let filepath = this.file.externalRootDirectory + 'icollect/data/';
 
     var m = new Date();
     let date = m.getUTCFullYear() + "-" + ("0" + (m.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + m.getUTCDate()).slice(-2) + "_" + ("0" + m.getUTCHours()).slice(-2) + "." + ("0" + m.getUTCMinutes()).slice(-2) + "." + ("0" + m.getUTCSeconds()).slice(-2);
+
+    let filename = this.user.id_contact+'_'+ date + '_mtk.sql';
+    let fileURL = encodeURI(filepath + filename);
+
+    this.file.createFile(filepath, filename, true).then(() => {
+
+      let query: string = "";
     
-    let filename = date+'_mobcrmticker.sql';  
-    
-    this.file.createFile(filepath, filename, true).then(() => { 
-
-      let query:string = "";
-      this.data.forEach(value => { 
-        query = query + "\nINSERT INTO mobcrmticker (id_contact, field_name, field_value, field_table, ticker_time, coordx, coordy, id_agent, id_plantation, id_plantationsite, local_synctable_id, id_project, id_task, sync, id_household, id_contact_docs, id_plantation_docs, id_equipment, id_sur_survey_answers, id_contractor, id_infrastructure, id_suranswer, plant_line_id, id_infrastructure_photo) VALUES ('" + value.contact_id + "', '" + value.field_name + "', '" + value.field_value + "', '" + value.field_table + "', '" + value.ticker_time + "', '" + value.coordx + "', '" + value.coordy + "', '" + value.agent_id + "', '" + value.plantation_id + "', '" + value.plantationsite_id + "', '" + value.local_synctable_id + "', '" + value.project_id + "', '" + value.task_id + "', '1', '" + value.id_household + "', '" + value.id_contact_docs + "', '" + value.id_plantation_docs + "', '" + value.id_equipement + "', '" + value.id_sur_survey_answers + "', '" + value.id_contractor + "', '" + value.id_infrastructure + "', '" + value.id_suranswer + "', '" + value.plant_line_id + "', '" + value.id_infrastructure_photo + "');";
-        this.file.writeExistingFile(filepath, filename, query);
-      });
-
-      if (this.network == true) {
-        this.translate.get('UPLOADING_DATA').subscribe(value => {
-          this.loading.showLoader(value);
-        });
-
-        let url = encodeURI("https://icoop.live/ic/mobile_upload.php?func=data");
-
-        let options: FileUploadOptions = {
-          fileKey: "file",
-          fileName: filename,
-          chunkedMode: false,
-          mimeType: "multipart/form-data",
-          params: { 'fileName': filename, 'func': 'data' }
-        }
-
-        const fileTransfer: FileTransferObject = this.transfer.create();
-
-        fileTransfer.upload(filepath+filename, url, options, true)
-          .then(() => {
-            this.loading.hideLoader();
-            this.db.backup(this.user.id_contact);
-            this.toastAlert('Data uploaded successfully.');
-
-          }).catch(err => {
-            this.loading.hideLoader();
+        var i = 0;
+        this.data.forEach(value => {
+          query = query + "\nINSERT INTO mobcrmticker (id_contact, field_name, field_value, field_table, ticker_time, coordx, coordy, id_agent, id_plantation, id_plantationsite, local_synctable_id, id_project, id_task, sync, id_household, id_contact_docs, id_plantation_docs, id_equipment, id_sur_survey_answers, id_contractor, id_infrastructure, id_suranswer, plant_line_id, id_infrastructure_photo) VALUES (" + value.contact_id + ", '" + value.field_name + "', '" + value.field_value + "', '" + value.field_table + "', '" + value.ticker_time + "', '" + value.coordx + "', '" + value.coordy + "', " + value.agent_id + ", " + value.plantation_id + ", " + value.plantationsite_id + ", " + value.local_synctable_id + ", " + value.project_id + ", " + value.task_id + ", 1, " + value.id_household + ", " + value.id_contact_docs + ", " + value.id_plantation_docs + ", " + value.id_equipement + ", " + value.id_sur_survey_answers + ", " + value.id_contractor + ", " + value.id_infrastructure + ", " + value.id_suranswer + ", " + value.plant_line_id + ", " + value.id_infrastructure_photo + ");";
+          this.file.writeExistingFile(filepath, filename, query).then(() => {
+            i = i + 1;
+            if (i === this.data.length) {
+              if (this.network == true) {
+                this.translate.get('UPLOADING_DATA').subscribe(value => {
+                  this.loading.showLoader(value);
+                });
+      
+                let url = encodeURI("https://icoop.live/ic/mobile_upload.php?func=data");
+      
+                let options: FileUploadOptions = {
+                  fileKey: "file",
+                  fileName: filename,
+                  chunkedMode: false,
+                  mimeType: "multipart/form-data",
+                  params: { 'fileName': filename, 'func': 'data' }
+                }
+      
+                const fileTransfer: FileTransferObject = this.transfer.create();
+      
+                fileTransfer.upload(fileURL, url, options, true)
+                  .then(() => {
+                    this.loading.hideLoader();
+                    this.toastAlert('Data uploaded successfully.');
+                    this.db.tickerAsSunc();
+                    this.db.backup(this.user.id_contact);
+      
+                  }).catch(err => { 
+                    console.log(JSON.stringify(err));
+                    this.loading.hideLoader();
+                  });
+      
+              } else {
+                this.translate.get('CHECK_INTERNET').subscribe(value => {
+                  this.toastAlert(value);
+                });
+              }
+            }
           });
-
-      } else {
-        this.translate.get('CHECK_INTERNET').subscribe(value => {
-          this.toastAlert(value);
         });
-      }
+
     });
-
-
-
 
     /*if (this.network == true) {
       this.translate.get('UPLOADING_DATA').subscribe(value => {

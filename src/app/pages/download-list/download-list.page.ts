@@ -1110,7 +1110,7 @@ export class DownloadListPage implements OnInit {
           if (id_supchain_company == 331) {
             v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_project_mob_tplantation?project_coop=eq.' + id_primary_company;
           } else {
-            v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_mob_town_plantation?id_contractor=eq.' + id_primary_company;
+            v_plantation = 'https://idiscover.ch/postgrest/icollect/dev/v_plantation_project_company?id_company=eq.' + id_primary_company;
           }
 
         } else
