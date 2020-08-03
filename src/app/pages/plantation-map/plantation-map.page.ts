@@ -152,7 +152,7 @@ export class PlantationMapPage implements OnInit {
             this.showColPoint = false;
 
             this.translate.get('NO_COLLECTION_POINT').subscribe(value => {
-              this.presentAlert(value, 'Info');
+              //this.presentAlert(value, 'Info');
             });
 
             this.checkGPSPermission(0);
@@ -653,7 +653,7 @@ export class PlantationMapPage implements OnInit {
           this.askToTurnOnGPS();
         } else {
           //If not having permission ask for permission
-          this.requestGPSPermission();
+          this.getLocationCoordinates();
         }
       }, err => {
         console.log(err);
@@ -674,7 +674,7 @@ export class PlantationMapPage implements OnInit {
           .then(() => { this.askToTurnOnGPS(); },
             error => {
               //Show alert if user click on 'No Thanks'
-              this.presentAlert('Error requesting location permissions ' + error, 'Error');
+              //this.presentAlert('Error requesting location permissions ' + error, 'Error');
             }
           );
       }
@@ -687,7 +687,9 @@ export class PlantationMapPage implements OnInit {
         // When GPS Turned ON call method to get Accurate location coordinates
         this.getLocationCoordinates()
       },
-      error => this.presentAlert('Requesting location permissions.' + JSON.stringify(error), 'Error')
+      error => {
+        //this.presentAlert('Requesting location permissions.' + JSON.stringify(error), 'Error')
+      } 
     );
   }
 
@@ -715,7 +717,7 @@ export class PlantationMapPage implements OnInit {
 
     }).catch((error) => {
       this.translate.get('LOCATION_ERROR').subscribe(value => {
-        this.presentAlert(value + error, 'Error');
+        //this.presentAlert(value + error, 'Error');
       });
     });
   }

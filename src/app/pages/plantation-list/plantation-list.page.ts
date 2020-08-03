@@ -34,6 +34,7 @@ export class PlantationListPage implements OnInit {
         this.loading.showLoader(value);
       });
       
+      this.plantation_data = "";
       this.db.lastLogedUser().then(usr => {
         this.db.loadPlantations(usr.id_contact, usr.agent_type, val).then(_ =>{
           this.db.getPlantations().subscribe(data => {  

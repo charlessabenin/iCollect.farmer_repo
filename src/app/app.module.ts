@@ -20,7 +20,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
-import { Camera } from '@ionic-native/Camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { CacheModule } from "ionic-cache";
 import { IonicImageLoader } from 'ionic-image-loader';

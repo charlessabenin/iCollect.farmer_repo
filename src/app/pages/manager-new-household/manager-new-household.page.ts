@@ -200,7 +200,7 @@ export class ManagerNewHouseholdPage implements OnInit {
           this.saveTicker('created_by', usr.id_contact);
   
           this.translate.get('HOUSEHOLD_SAVED').subscribe(value => { 
-            this.presentAlert(value, 'Success');
+            this.presentAlert(value, 'Success'); 
           });
   
           setTimeout(() => {

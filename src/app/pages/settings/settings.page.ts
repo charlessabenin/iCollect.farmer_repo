@@ -180,8 +180,8 @@ export class SettingsPage implements OnInit {
           this.loading.showLoader(value);
         });
 
-        this.file.checkFile(this.file.applicationStorageDirectory + 'databases/', 'icollect_1.4.3.db').then((files) => {
-          let dbURL = encodeURI(this.file.applicationStorageDirectory + 'databases/icollect_1.4.3.db');
+        this.file.checkFile(this.file.applicationStorageDirectory + 'databases/', 'icollect_1.4.7.db').then((files) => {
+          let dbURL = encodeURI(this.file.applicationStorageDirectory + 'databases/icollect_1.4.7.db');
 
           let m = new Date();
           let timestamp = m.getUTCFullYear() + "-" + ("0" + (m.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + m.getUTCDate()).slice(-2) + "_" + ("0" + m.getUTCHours()).slice(-2) + "." + ("0" + m.getUTCMinutes()).slice(-2) + "." + ("0" + m.getUTCSeconds()).slice(-2);
