@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/Camera/ngx';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { DatabaseService } from 'src/app/services/database.service';

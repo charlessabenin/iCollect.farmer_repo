@@ -5,7 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { NetworkService, ConnectionStatus } from 'src/app/services/network.service.js';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/Camera/ngx';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Storage } from '@ionic/storage';

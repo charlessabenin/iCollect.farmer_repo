@@ -4,7 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NetworkService, ConnectionStatus } from 'src/app/services/network.service.js';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/Camera/ngx';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { Storage } from '@ionic/storage';
 import { File } from '@ionic-native/file/ngx';
 

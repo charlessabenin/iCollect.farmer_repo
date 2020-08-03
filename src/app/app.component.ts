@@ -3,7 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CacheService } from "ionic-cache";
 
 import { timer } from 'rxjs';
@@ -22,8 +21,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private cache: CacheService,
-    public translate: TranslateService,
-    private insomnia: Insomnia
+    public translate: TranslateService
   ) {
     this.initializeApp();
 
@@ -39,12 +37,6 @@ export class AppComponent {
       this.splashScreen.hide();
 
       timer(3000).subscribe(() => this.showSplash = false);
-
-      this.insomnia.keepAwake()
-        .then(
-          () => console.log('success'),
-          () => console.log('error')
-        );
     });
   }
 }

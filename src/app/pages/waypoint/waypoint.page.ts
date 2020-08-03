@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/Camera/ngx';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { DatabaseService } from 'src/app/services/database.service.js';
 import { NavController, ToastController, AlertController, Platform } from '@ionic/angular';
 //import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
@@ -52,9 +53,16 @@ export class WaypointPage implements OnInit {
     public navCtrl: NavController,
     private platform: Platform,
     private camera: Camera,
+    private insomnia: Insomnia,
     private file: File
   ) {
     this.getGPSPrecision();
+
+    this.insomnia.keepAwake()
+        .then(
+          () => console.log('success'),
+          () => console.log('error')
+        );
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/Camera/ngx';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { DatabaseService } from 'src/app/services/database.service';
 import { File } from '@ionic-native/file/ngx';
 import { Storage } from '@ionic/storage';
