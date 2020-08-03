@@ -91,7 +91,7 @@ export class DatabaseService {
         .then((db: SQLiteObject) => {
           this.database = db;
           this.createTables();
-        })
+        });
     })
   }
 
