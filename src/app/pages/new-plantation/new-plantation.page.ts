@@ -130,7 +130,7 @@ export class NewPlantationPage implements OnInit {
   
   
               this.translate.get('PLANTATION_CREATE_SUCCESS').subscribe(value => { 
-                this.presentAlert(value, 'Success');
+                this.toastAlert(value);
               });
   
               setTimeout(() => {

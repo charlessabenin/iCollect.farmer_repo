@@ -645,6 +645,9 @@ export class PlantationMapPage implements OnInit {
       this.backBtn = false;
     }
 
+    this.getLocationCoordinates();
+
+    /*
     //if(this.user.high_accuracy == 1){
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
@@ -661,7 +664,7 @@ export class PlantationMapPage implements OnInit {
     );
     // } else {
     //  this.getLocationCoordinates();
-    //}
+    //} */
   }
 
   requestGPSPermission() {

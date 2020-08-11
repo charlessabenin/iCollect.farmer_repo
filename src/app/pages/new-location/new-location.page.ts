@@ -111,7 +111,7 @@ export class NewLocationPage implements OnInit {
 
         }).catch(err => {
           this.translate.get('LOCATION_NOT_SAVED').subscribe(value => {
-            this.presentAlert(value + err, 'Error');
+            this.toastAlert(value);
           });
         });
     });

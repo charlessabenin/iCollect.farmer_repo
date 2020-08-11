@@ -249,7 +249,7 @@ export class EditHouseholdPage implements OnInit {
         
         setTimeout(() => {
           this.translate.get('HOUSEHOLD_SAVED').subscribe(value => { 
-            this.presentAlert(value, 'Data saved'); 
+            this.toastAlert(value); 
           });
 
           //this.db.syncData();

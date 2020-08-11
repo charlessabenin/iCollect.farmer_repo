@@ -175,7 +175,7 @@ export class EditMediaPage implements OnInit {
         }
 
         this.translate.get('DATA_SAVE_SUCCESS').subscribe(value => { 
-          this.presentAlert(value, 'Success');
+          this.toastAlert(value); 
         });
 
         setTimeout(() => {

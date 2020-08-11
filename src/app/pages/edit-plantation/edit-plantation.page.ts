@@ -669,7 +669,7 @@ export class EditPlantationPage implements OnInit {
           this.loading.hideLoader();
 
           this.translate.get('PLANTATION_DATA_SAVE_SUCCESS').subscribe(value => {
-            this.presentAlert(value, 'Success');
+            this.toastAlert(value);
           });
 
           //this.db.syncData();

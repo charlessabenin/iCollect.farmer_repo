@@ -198,7 +198,7 @@ export class NewHouseholdPage implements OnInit {
           this.saveTicker('created_by', usr.id_contact);
   
           this.translate.get('HOUSEHOLD_SAVED').subscribe(value => { 
-            this.presentAlert(value, 'Success');
+            this.toastAlert(value);
           });
   
           setTimeout(() => {

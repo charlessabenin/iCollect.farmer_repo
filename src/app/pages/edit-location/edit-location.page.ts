@@ -100,7 +100,7 @@ export class EditLocationPage implements OnInit {
 
         //this.db.syncData();
         this.translate.get('UPDATE_LOCATION_SUCCESS').subscribe(
-          value => { this.presentAlert(value, 'Success'); }
+          value => { this.toastAlert(value); }
         );
       });
     });

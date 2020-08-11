@@ -179,7 +179,7 @@ export class NewContactPage implements OnInit {
 
 
       this.translate.get('CONTACT_CREATE_SUCCESS').subscribe(value => {
-        this.presentAlert(value, 'Success');
+        this.toastAlert(value);
       });
 
       setTimeout(() => {
@@ -209,7 +209,7 @@ export class NewContactPage implements OnInit {
           this.saveTicker('created_by', this.agent_id, 'plantation');
 
           this.translate.get('PLANTATION_CREATE_SUCCESS').subscribe(value => {
-            this.presentAlert(value, 'Success');
+            this.toastAlert(value);
           });
         });
     });

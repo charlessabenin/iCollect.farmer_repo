@@ -381,7 +381,7 @@ export class EditContactPage implements OnInit {
           this.loading.hideLoader();
           
           this.translate.get('CONTACT_SAVE_SUCCES').subscribe(value => {
-            this.presentAlert(value, 'Data saved');
+            this.toastAlert(value);
           });
 
           //this.db.syncData();
